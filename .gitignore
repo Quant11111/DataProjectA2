@@ -1,0 +1,29 @@
+# Ignore Python compiled bytecode files
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Python environment files
+.env
+airflow_venv/
+
+# Ignore logs
+airflow/logs/
+
+# Ignore PID files
+airflow/*.pid
+
+# Ignore configuration files that may contain sensitive information
+airflow/standalone_admin_password.txt
+airflow/airflow.cfg
+airflow/airflow.db
+
+# Ignore backup files from text editors
+#*~
+#*.swp
+#*.swo
+.vscode/
+
+# Ignore OS generated files
+#.DS_Store
