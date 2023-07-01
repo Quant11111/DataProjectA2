@@ -50,13 +50,13 @@ with DAG(
 
     for year in range(2000, 2023):
         task = PythonOperator(
-            task_id=f'task{len(tasks)}',
+            task_id=f'tmdbFetch-{year}',
             python_callable=create_tmdb_fetcher_task(year),
             provide_context=True,
         )
         tasks.append(task)
         task = PythonOperator(
-            task_id=f'task{len(tasks)}',
+            task_id=f'tmdbFmt-{year}',
             python_callable=create_tmdb_fmt_task(year),
             provide_context=True,
         )
@@ -65,13 +65,13 @@ with DAG(
 
     for arg in imdb_args:
         task = PythonOperator(
-            task_id=f'task{len(tasks)}',
+            task_id=f'imdbFetch-{arg}',
             python_callable=create_imdb_fetcher_task(arg),
             provide_context=True,
         )
         tasks.append(task)
         task = PythonOperator(
-            task_id=f'task{len(tasks)}',
+            task_id=f'imdbFmt-{arg}',
             python_callable=create_imdb_fmt_task(arg),
             provide_context=True,
         )
