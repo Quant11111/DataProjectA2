@@ -17,9 +17,12 @@ TMDB_API_ACCESS_TOKEN = ""
 AWS_ACCESS_KEY_ID= "" 
 AWS_SECRET_ACCESS_KEY=""
 
+
+
 BUCKET_NAME = "best-french-movies-tmdb"    
 # this is the name (bad name choosen before knowing the meaning of "bucket") of the s3 bucket i use. replace it with your own and add your aws credentials
 
 # before running airflow standalone
 export AIRFLOW_HOME=~/isep/data_module/airflow_project/airflow 
 # replace this path with the absolute path of your airflow home directory
+

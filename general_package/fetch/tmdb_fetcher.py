@@ -1,7 +1,7 @@
-import os
 import json
 import requests
 from ..s3.upload_object import upload_object
+
 
 """
 this function is fetching the top french movies
@@ -14,22 +14,23 @@ Args:
         number_of_pages (int): number of pages to fetch (page1 = 20 best, page2 = the next 20,...).
 """
 
-def tmdb_fetcher(year, number_of_pages, **kwargs):
-    result = get_movies_by_year_tmdb(year, 1)
+
+def tmdb_fetcher(year, number_of_pages, TOKEN, **kwargs):
+
+    result = get_movies_by_year_tmdb(year, 1, TOKEN)
     for i in range(2, number_of_pages):
-        result += get_movies_by_year_tmdb(year, i) #loop that all pages between 2 and number_of_pages and add them to the result
+        result += get_movies_by_year_tmdb(year, i, TOKEN) #loop that all pages between 2 and number_of_pages and add them to the result
     object = json.dumps(result).encode()            #convert the result to json and encode it  
     upload_object("raw","tmdb",f"top_{number_of_pages * 20}",f"top_{number_of_pages*20}_{year}.json", object, **kwargs) 
 
-TOKEN = os.environ.get("TMDB_API_ACCESS_TOKEN")
 
 
 #request function
-def get_movies_by_year_tmdb(year, page):
+def get_movies_by_year_tmdb(year, page, TOKEN):
     url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&page={page}&primary_release_year={year}&sort_by=popularity.desc&with_original_language=fr"
     headers = {
        "accept": "application/json",
-       "Authorization": "bearer " + str(TOKEN),
+       "Authorization": f"Bearer " + str(TOKEN),
     }
 
     response = requests.get(url, headers=headers)
@@ -40,5 +41,3 @@ def get_movies_by_year_tmdb(year, page):
     else:
         print("An error occurred while fetching the data.")
         return None
-
-

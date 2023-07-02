@@ -1,3 +1,4 @@
+import os
 import sys
 from datetime import datetime, timedelta
 from airflow import DAG
@@ -31,13 +32,14 @@ with DAG(
         This is my first DAG in airflow.
         I can write documentation in Markdown here with **bold text** or __bold text__.
     """
-    # issue with title.basic title.akas title.principals
-    imdb_args = ['title.basics', 'title.akas', 'title.crew', 'title.episode', 'title.principals', 'title.ratings']
+    
+    imdb_args = ['title.basics', 'title.crew', 'title.ratings']
     tasks = []
     number_of_pages = 1
+    TOKEN = os.environ.get("TMDB_API_ACCESS_TOKEN")
 
     def create_tmdb_fetcher_task(year):
-        return lambda **kwargs: tmdb_fetcher(year, number_of_pages, **kwargs)
+        return lambda **kwargs: tmdb_fetcher(year, number_of_pages, TOKEN, **kwargs)
 
     def create_tmdb_fmt_task(year):
         return lambda **kwargs: tmdb_fmt(year, number_of_pages, **kwargs)
